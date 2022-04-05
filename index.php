@@ -714,7 +714,7 @@ if(isset($_GET['key'])){
     }
 
     if($_GET['key']){
-        echo $_GET['key'];
+        echo "blank page";
         die();
     }
 
