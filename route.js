@@ -338,7 +338,7 @@ function navAction(){
                         url: '/?key=logout',
                         success:function(){
                             localStorage.removeItem('loginCond');
-                            location.href = "/logout";
+                            location.href = "/";
                         },error: function(){
                             alert('sorry no action to do');
                         }
