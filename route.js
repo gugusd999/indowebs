@@ -395,7 +395,7 @@ window.onresize = function(){
 globalThis.loadStyle = loadStyle;
 
 loadStyle([
-    urlapp+'/sb/vendor/fontawesome-free/css/all.min.css',
+    urlapp+'sb/vendor/fontawesome-free/css/all.min.css',
     urlapp+'summernote.css',
     urlapp+'summernote-bs4.css',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
@@ -446,7 +446,7 @@ loadSc([
     urlapp+"sb/vendor/jquery-easing/jquery.easing.min.js?v=2",
     urlapp+"sb/js/sb-admin-2.min.js?v=2",
     urlapp+"summernote.js",
-    urlapp+"/uploadapi.js",
+    urlapp+"uploadapi.js",
     "https://cdn.jsdelivr.net/npm/sweetalert2@11?v=1",
     "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js?v=2",
 ], function(){

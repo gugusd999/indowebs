@@ -34,6 +34,27 @@ class Session {
             unset($_SESSION[$id]);
         }
     }
+
+    public static function ip(){
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
+
+
 }
 
 if(!isset($_POST['front'])){
@@ -74,7 +95,12 @@ class DB {
 
 
     public function __construct(){
-
+        if (Session::ip() == '127.0.0.1') {
+            $this->host = 'localhost';
+            $this->user = 'root';
+            $this->db = 'indowebs_indo';
+            $this->password = '#gugusd090397';
+        }
     }
 
     public static function cekDatbase(){
@@ -638,6 +664,7 @@ if(isset($_GET['key'])){
               $cachefile = json_decode($rf, true);
             }
             unlink($changefile);
+            var_dump($cachefile);
             $base64 = "";
 	          foreach ($cachefile as $key => $b64) {
 			          $base64 .= $b64;
@@ -673,7 +700,6 @@ if(isset($_GET['key'])){
                 echo "simpan";
                 echo $ok;
             }
-
 
       	}
         die();
@@ -790,7 +816,7 @@ if(isset($_GET['key'])){
   	<script type="text/javascript">
   		localStorage.setItem('loginCond', '<?= Session::get('token') ?>');
       	globalThis.bashpath = "/";
-        globalThis.urlapp = "https://indowebs.my.id/";
+        globalThis.urlapp = "/";
   		  globalThis.pathRoot = "/";
         globalThis.getScript = 55;
         globalThis.user = {
@@ -902,7 +928,7 @@ if(isset($_GET['key'])){
   	<script type="text/javascript">
   		    localStorage.setItem('loginCond', '<?= Session::get('token') ?>');
         	globalThis.bashpath = "/";
-          globalThis.urlapp = "https://indowebs.my.id/";
+          globalThis.urlapp = "/";
   		    globalThis.pathRoot = "/";
           globalThis.getScript = 55;
           globalThis.user = {
