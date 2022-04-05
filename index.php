@@ -444,6 +444,11 @@ if(isset($_GET['key'])){
     header('Content-Type: text/plain');
 
 
+    if($_GET['key'] == 'logout'){
+        Session::destroy('token');
+        die();
+    }
+
     if($_GET['key'] == 'postimage'){
         $file = $_FILES['file'];
         $name = $file['name'];
