@@ -16,6 +16,18 @@ $dataLogin[] = (object) [
 
 session_start();
 
+class iwFn
+{
+
+  public static function r($path = "")
+  {
+    $myfile = fopen($path, "r") or die("Unable to open file!");
+    $er = fread($myfile,filesize($path));
+    fclose($myfile);
+    return $er;
+  }
+}
+
 class Session {
     public static function get($id = null){
         if(isset($_SESSION[$id])){
@@ -664,7 +676,6 @@ if(isset($_GET['key'])){
               $cachefile = json_decode($rf, true);
             }
             unlink($changefile);
-            var_dump($cachefile);
             $base64 = "";
 	          foreach ($cachefile as $key => $b64) {
 			          $base64 .= $b64;
@@ -869,34 +880,117 @@ if(isset($_GET['key'])){
 
     <script type="text/javascript">
 
-      console.log(CodeMirror)
-
       globalThis.codePlay = function(textArea = 'code'){
 
-        console.log(document.getElementById(textArea));
+            var editor = CodeMirror.fromTextArea(document.getElementById(textArea), {
+                lineNumbers: false,
+                mode: "javascript",
+                keyMap: "sublime",
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                mode: "javascript",
+                showCursorWhenSelecting: true,
+                theme: "monokai",
+                tabSize: 2,
+                indentUnit: 4,
+                indentWithTabs: true
+            });
 
-        console.log(CodeMirror);
-
-        var editor = CodeMirror.fromTextArea(document.getElementById(textArea), {
-          lineNumbers: false,
-          mode: "javascript",
-          keyMap: "sublime",
-          autoCloseBrackets: true,
-          matchBrackets: true,
-          mode: "javascript",
-          showCursorWhenSelecting: true,
-          theme: "monokai",
-          tabSize: 2,
-          indentUnit: 4,
-          indentWithTabs: true
-        });
-
-        editor.on('change', (editor) => {
-          const text = editor.doc.getValue()
-          document.getElementById(textArea).value = text;
-        });
+            editor.on('change', (editor) => {
+                const text = editor.doc.getValue()
+                document.getElementById(textArea).value = text;
+            });
 
       }
+
+function capitalize(s){
+    return s.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
+};
+
+function makeMenus(a = null){
+    var d = Object.keys(a);
+
+    var ar = [];
+    var ars = [];
+
+    var html = '';
+
+    for(var f of d){
+        var type = Array.isArray(a[f]);
+        if(type == true){
+            html += `
+                <li class="nav-item nav-item">
+                    <a class="nav-link collapsed" href="#/${f}">
+                    <i class="fas fa-fw fa-${a[f][1]}"></i>
+                    <span>${a[f][0]}</span>
+                    </a>
+                </li>
+            `;
+            if(f == ''){
+                ar.push('dashboard');
+            }else{
+                ar.push(f);
+            }
+            ars.push(f);
+        }else{
+            html += `
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-toggle="collapse" data-target="#${f}"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-${a[f].icon}"></i>
+                        <span>${capitalize(f.replace(/\_/g, ' '))}</span>
+                    </a>
+                    <div id="${f}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            ${Object.keys(a[f].data).map(function(v,i){
+                                ar.push(v);
+                                ars.push(v);
+                                var o = a[f].data;
+                                return `
+                                    <a class="collapse-item" href="#/${v}">${o[v]}</a>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </li>
+
+            `;
+        }
+    }
+
+    return {
+        html: html,
+        ar: ar,
+        ars: ars
+    };
+
+}
+
+
+    var m = makeMenus({
+        '': ['Dashboard', 'tachometer-alt'],
+        page: ['Page', 'tag'],
+        asisten: ['Asisten', 'tag'],
+        theme: ['Tema', 'file'],
+        catatan: ['Catatan', 'file']
+    });
+
+    </script>
+
+    <?php
+        
+        $pathComponent = ['file', 'table', 'loadjs', 'route'];
+        $pathMenu = ['dashboard', 'page', 'asisten', 'theme', 'catatan'];
+        
+    ?>
+
+    <script>
+
+        <?php foreach ($pathMenu as $key => $getJsPageSet) {
+            $rf = iwFn::r('page/'.$getJsPageSet.'.js');
+            echo $rf." \n";
+        } ?>
 
     </script>
 
@@ -904,7 +998,13 @@ if(isset($_GET['key'])){
     <script src="navbar2.js?v=<?= date('ymdhis') ?>" ></script>
     <script src="xdb.js?v=<?= date('ymdhis') ?>" ></script>
     <script src="db.js?v=<?= date('ymdhis') ?>" ></script>
-    <script id="moduleapp" src="route.js?v=<?= date('ymdhis') ?>" type="module" ></script>
+    <script>
+        <?php foreach ($pathComponent as $key => $getJsPageSet) {
+            $rf = iwFn::r($getJsPageSet.'.js');
+            $rf = str_replace("export ", "", $rf);
+            echo $rf." \n";
+        } ?>
+    </script>
   </body>
 </html>
 <?php

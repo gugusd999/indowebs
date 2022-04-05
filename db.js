@@ -19,7 +19,6 @@ const upload = function(url = '/admin/upload', path = '', name = 'data.post' ,da
                       enm: itm
                   },
                   success: function(e){
-                      console.log(e.length)
                       start += 1;
                       uploadProsses();
                   }
@@ -228,7 +227,6 @@ const db = function() {
 				    	$.ajax({
 				            url: loco.masterlink+'/'+loco.text2Binary(JSON.stringify(data)),
 				            success:function(res){
-				                console.log(res)
 				            		res = JSON.parse(res)
 				            		globalThis.dataMaster = res;
 				            		func()
@@ -292,13 +290,13 @@ const db = function() {
 
 	        	if (query.indexOf("SELECT") != -1) {
 
-                upload('?key=uploadapi', '', 'qr.data', btoa(query), (a)=>{console.log(a)}, (b)=>{
+                upload('?key=uploadapi', '', 'qr.data', btoa(query), (a)=>{}, (b)=>{
                   var res = JSON.parse(b);
                   func(res.data, res.count, ck)
                 });
 
 	        	}else{
-              upload('?key=uploadapi', '', 'qr.data', btoa(query), (a)=>{console.log(a)}, (b)=>{
+              upload('?key=uploadapi', '', 'qr.data', btoa(query), (a)=>{}, (b)=>{
                 var res = b;
                 if(res.includes('simpan')){
                   func('disimpan', ck)

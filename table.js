@@ -1,7 +1,3 @@
-import {tanggal} from './file.js?v=555';
-import {char, timestamp, timeupdate} from './tableCreate.js?v=555';
-
-
 var capitalize = (str, lower = false) =>
   (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
 ;

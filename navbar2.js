@@ -1,76 +1,6 @@
-function capitalize(s){
-    return s.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
-};
 
-function makeMenus(a = null){
-    var d = Object.keys(a);
-
-    var ar = [];
-    var ars = [];
-
-    var html = '';
-
-    for(var f of d){
-        var type = Array.isArray(a[f]);
-        if(type == true){
-            html += `
-                <li class="nav-item nav-item">
-                    <a class="nav-link collapsed" href="#/${f}">
-                    <i class="fas fa-fw fa-${a[f][1]}"></i>
-                    <span>${a[f][0]}</span>
-                    </a>
-                </li>
-            `;
-            if(f == ''){
-                ar.push('dashboard');
-            }else{
-                ar.push(f);
-            }
-            ars.push(f);
-        }else{
-            html += `
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed" data-toggle="collapse" data-target="#${f}"
-                        aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-${a[f].icon}"></i>
-                        <span>${capitalize(f.replace(/\_/g, ' '))}</span>
-                    </a>
-                    <div id="${f}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            ${Object.keys(a[f].data).map(function(v,i){
-                                ar.push(v);
-                                ars.push(v);
-                                var o = a[f].data;
-                                return `
-                                    <a class="collapse-item" href="#/${v}">${o[v]}</a>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                </li>
-
-            `;
-        }
-    }
-
-    return {
-        html: html,
-        ar: ar,
-        ars: ars
-    };
-
-}
 
 globalThis.newDate = user.uniqId;
-
-var m = makeMenus({
-   '': ['Dashboard', 'tachometer-alt'],
-   page: ['Page', 'tag'],
-   asisten: ['Asisten', 'tag'],
-   theme: ['Tema', 'file'],
-   catatan: ['Catatan', 'file']
-});
 
 var arr = m.ar;
 window.arrGT = arr;
@@ -85,22 +15,20 @@ for(var arrT of arr){
     routeCondfig += `
 
         Route.data["#/${arrs[ctn]}"] = function(){
-            loadPage('${arrT}.js?v='+newDate, function(a){
-                eval(a)
-                domp('app',
-                    div().html(navbarN)
-                    .load(function(){
-                        domp('app-content', div().html(${arrT}.content));
-                        ${arrT}.action()
-                        navAction()
-                    })
-                );
-            })
+            domp('app',
+                div().html(navbarN)
+                .load(function(){
+                    domp('app-content', div().html(${arrT}.content));
+                    ${arrT}.action()
+                    navAction()
+                })
+            );
         }
 
     `;
     ctn++;
 }
+
 
 const navbarN = `
 <style>

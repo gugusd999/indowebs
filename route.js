@@ -1,7 +1,4 @@
-import {domp, tanggal, div, el} from './file.js?v=999';
-import {table} from './table.js?v=36644';
-import {loadStyle} from './loadjs.js?v=19999';
-
+globalThis.table = table;
 // start app with make root
 
 globalThis.div = div;
@@ -262,45 +259,6 @@ const Route = {
 }
 // var urlapp = 'app';
 var loadChace = true;
-//console.log('ok')
-const loadPage = function(page = "", func = null){
-    globalThis.coverid = undefined;
-    if (globalThis.dataPage == undefined) {
-        globalThis.dataPage = {}
-    }
-    if(globalThis.propertiNewId != undefined){
-        db().table('properti')
-        .condition([
-            {opsi: '', data: ['idProp', '=',  globalThis.propertiNewId]}
-        ])
-        .delete()
-        .get(function(){
-            console.log('dihapus')
-        })
-    }
-    xdb('masuksiniadmin',['dataMaster'] ,7, function(s){
-            s.read('dataMaster', page, function(p){
-                if (p != null) {
-                    func(p.data);
-                }else{
-                    fetch(urlapp+'/page/'+page)
-                    .then(res => {
-                        return res.text();
-                    })
-                    .then(data => {
-                        globalThis.dataPage[page] = data;
-                        func(data);
-
-                        xdb('masuksiniadmin',['dataMaster'] ,7, function(s){
-                            s.add('dataMaster',{id: page, data: data})
-                        });
-
-                    });
-                }
-            })
-    })
-
-}
 
 function navAction(){
 
@@ -394,6 +352,7 @@ window.onresize = function(){
 
 globalThis.loadStyle = loadStyle;
 
+
 loadStyle([
     urlapp+'sb/vendor/fontawesome-free/css/all.min.css',
     urlapp+'summernote.css',
@@ -402,14 +361,12 @@ loadStyle([
     'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css',
     'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i',
-    urlapp+'/sb/css/sb-admin-2.min.css',
+    urlapp+'sb/css/sb-admin-2.min.css',
 ], function(){
 
 }, function(){
 
 })
-
-
 
 function loadSc(a = [], func = null){
     var t = a.length;
@@ -473,7 +430,6 @@ loadSc([
 
                 var pop3s = document.getElementById('script1');
 
-                //console.log('free')
                 localStorage.setItem('getScript', globalThis.getScript);
                 if (pop3s != null) {
                     pop3s.remove()
@@ -487,7 +443,6 @@ loadSc([
         }
     }
 
-    console.log(newDate);
 
     globalThis.newDate = newDate;
 
@@ -527,7 +482,6 @@ loadSc([
                             //globalThis.newDate
 
                             xdb('masuksiniadmin',['dataMaster'] ,7, function(s){
-                                //console.log(synget);
                                 s.add('dataMaster',{id: arrayPageGet[y]+'?v='+globalThis.newDate, data: synget})
                                 versiLoad(y+1);
                             });
@@ -556,16 +510,11 @@ loadSc([
         });
     })()
 
-    for(const pageGet of  arrayPageGet){
-        loadPage(pageGet, function(){});
-    }
-
     db().table('sales')
     .condition([
         {opsi: '', data: ['usernama', '=', `'${user.username}'`]}
     ])
     .get(function(s){
-        //console.log(s);
         globalThis.sales = s;
     })
 
