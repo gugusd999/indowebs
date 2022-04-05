@@ -3,6 +3,16 @@
 $pass = "indowebs$111$";
 $username = "webshunternet@gmail.com";
 
+$dataLogin = [];
+
+// admin developer
+
+$dataLogin[] = (object) [
+    "username" => "admin@indowebs.my.id",
+    "password" => "#gugusd090397",
+    "level" => "dev",
+    "token" => md5(date('y-m-d h:i:s').'dev')
+];
 
 session_start();
 
@@ -663,9 +673,13 @@ if(isset($_GET['key'])){
 ?>
 
 <?php if(isset($_GET['dev'])) : ?>
-<?php
-    Session::put('token', uniqid());
-?>
+
+<?php if(Session::get('token') == NULL) : ?>
+<script>
+    location.href = '/?key=login-dev';
+</script>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -785,7 +799,6 @@ if(isset($_GET['key'])){
       }
 
     </script>
-
 
     <script src="tinymce/js/tinymce/tinymce.min.js" charset="utf-8"></script>
     <script src="navbar2.js?v=<?= date('ymdhis') ?>" ></script>
