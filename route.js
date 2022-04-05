@@ -334,8 +334,15 @@ function navAction(){
                   confirmButtonText: 'Ya',
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    localStorage.removeItem('loginCond');
-                    location.href = "/logout";
+                      $.ajax({
+                        url: '/?key=logout',
+                        success:function(){
+                            localStorage.removeItem('loginCond');
+                            location.href = "/logout";
+                        },error: function(){
+                            alert('sorry no action to do');
+                        }
+                    })
                   }
                 })
             },false)
