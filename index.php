@@ -980,7 +980,7 @@ function makeMenus(a = null){
 
     <?php
         
-        $pathComponent = ['file', 'table', 'loadjs', 'route'];
+        $pathComponent = ['navbar2','xdb','db','file', 'table', 'loadjs', 'route'];
         $pathMenu = ['dashboard', 'page', 'asisten', 'theme', 'catatan'];
         
     ?>
@@ -993,11 +993,7 @@ function makeMenus(a = null){
         } ?>
 
     </script>
-
     <script src="tinymce/js/tinymce/tinymce.min.js" charset="utf-8"></script>
-    <script src="navbar2.js?v=<?= date('ymdhis') ?>" ></script>
-    <script src="xdb.js?v=<?= date('ymdhis') ?>" ></script>
-    <script src="db.js?v=<?= date('ymdhis') ?>" ></script>
     <script>
         <?php foreach ($pathComponent as $key => $getJsPageSet) {
             $rf = iwFn::r($getJsPageSet.'.js');
