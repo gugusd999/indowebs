@@ -435,6 +435,15 @@ if (isset($_GET['git'])) {
 
 
 if(isset($_GET['key'])){
+    if($_GET['key'] == "login-dev"){
+
+        
+        die();
+    }
+}
+
+
+if(isset($_GET['key'])){
 
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
