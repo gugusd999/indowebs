@@ -409,6 +409,12 @@ function dbqueryNum($qr){
     }
 }
 
+
+if(isset($_GET['whoami'])){
+    echo shell_exec('whoami');
+    die();
+}
+
 if (isset($_GET['git'])) {
     
     shell_exec('git pull');
