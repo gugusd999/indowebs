@@ -67,6 +67,7 @@ globalThis.newDate = user.uniqId;
 var m = makeMenus({
    '': ['Dashboard', 'tachometer-alt'],
    page: ['Page', 'tag'],
+   asisten: ['Asisten', 'tag'],
    theme: ['Tema', 'file'],
    catatan: ['Catatan', 'file']
 });
