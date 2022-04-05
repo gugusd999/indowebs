@@ -712,6 +712,8 @@ if(isset($_GET['key'])){
     	    }
         die();
     }
+}else{
+    die();
 }
 
 ?>
