@@ -40,6 +40,30 @@ if(!isset($_POST['front'])){
   Session::put('front', null);
 }
 
+if(isset($_GET['username']) && isset($_GET['password']))
+{
+    $token = null;
+    foreach ($dataLogin as $key => $login) {
+        if ($login->username == $_GET['username'] && $login->password == $_GET['password']) {
+            $token = $login->token;
+        }
+    }
+    if ($token != null) {
+        Session::put('token', $token);
+        echo '
+            <script>
+                location.href = "/?dev";
+            </script>
+        ';
+    }else{
+        echo '
+            <script>
+                location.href = "/?dev";
+            </script>
+        ';
+    }
+    die();
+}
 
 class DB {
 
