@@ -860,15 +860,15 @@ if(isset($_GET['key'])){
 
 <?php
 
-$theme = DB::query_result_object_row("SELECT * FROM theme WHERE status = 1 ");
+    $theme = DB::query_result_object_row("SELECT * FROM theme WHERE status = 1 ");
 
-$theme = base64_decode($theme->kontent_code);
+    $theme = base64_decode($theme->kontent_code);
 
-$myfile = fopen("wpage.php", "w") or die("Unable to open file!");
-fwrite($myfile, html_entity_decode($theme, ENT_QUOTES));
-fclose($myfile);
+    $myfile = fopen("wpage.php", "w") or die("Unable to open file!");
+    fwrite($myfile, html_entity_decode($theme, ENT_QUOTES));
+    fclose($myfile);
 
-include 'wpage.php';
+    include 'wpage.php';
 
 
 ?>
