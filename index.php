@@ -413,6 +413,8 @@ if (isset($_GET['git'])) {
     
     shell_exec('git pull');
 
+    die();
+
 }
 
 
