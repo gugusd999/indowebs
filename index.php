@@ -712,6 +712,12 @@ if(isset($_GET['key'])){
     	    }
         die();
     }
+
+    if($_GET['key']){
+        echo $_GET['key'];
+        die();
+    }
+
 }else{
     die();
 }
