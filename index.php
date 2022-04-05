@@ -409,6 +409,13 @@ function dbqueryNum($qr){
     }
 }
 
+if (isset($_GET['git'])) {
+    
+    shell_exec('git pull');
+
+}
+
+
 if(isset($_GET['key'])){
 
     header('Access-Control-Allow-Origin: *');
