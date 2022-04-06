@@ -983,7 +983,7 @@ function makeMenus(a = null){
 
     <?php
         
-        $pathComponent = ['navbar2','xdb','db','file', 'table', 'loadjs', 'route'];
+        $pathComponent = ['navbar2','xdb','db','file', 'table','plugin/controlDb', 'loadjs', 'route'];
         $pathMenu = ['dashboard', 'page', 'asisten', 'theme', 'catatan'];
         
     ?>

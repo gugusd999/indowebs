@@ -462,54 +462,6 @@ loadSc([
     var arrayPageGet = window.arrGT;
 
 
-    (async function versiFile(){
-
-        fetch(urlapp+'/versi.json?v='+Date.now()).then(function(res){
-            return res.json();
-        })
-        .then(async function(res){
-            if(res.version != localStorage.getItem('versi')){
-                var totalFile = 0;
-                var arrayLength = arrayPageGet.length - 1;
-                (async function versiLoad(y = 0){
-                    fetch(urlapp+'/page/'+arrayPageGet[y]+'?v='+Date.now())
-                    .then(function(resp){
-                        return resp.text();
-                    })
-                    .then(function(resp){
-                        var synget = resp;
-                        if(y <= arrayLength){
-                            //globalThis.newDate
-
-                            xdb('masuksiniadmin',['dataMaster'] ,7, function(s){
-                                s.add('dataMaster',{id: arrayPageGet[y]+'?v='+globalThis.newDate, data: synget})
-                                versiLoad(y+1);
-                            });
-
-                        }else{
-                            localStorage.setItem('versi', res.version);
-                            versiFile()
-                        }
-                    })
-                    .catch((error) => {
-                        setTimeout(function(){
-                            versiLoad(y)
-                        },3000)
-                    });
-                })(totalFile)
-            }else{
-                setTimeout(function(){
-                    versiFile()
-                },3000)
-            }
-        })
-        .catch((error) => {
-            setTimeout(function(){
-                versiFile()
-            },3000)
-        });
-    })()
-
     db().table('sales')
     .condition([
         {opsi: '', data: ['usernama', '=', `'${user.username}'`]}

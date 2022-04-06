@@ -14,7 +14,18 @@ globalThis.asisten = {
     `,
     action: function () {
         setTimeout(function () {
-           
+            var y = new ControlTable('customer');
+            y.char('kode', 255, '');
+            y.char('nama_pt', 255, '');
+            y.char('nama', 255, '');
+            y.char('telp', 255, '');
+            y.char('alamat', 255, '');
+            y.text('keterangan');
+            y.timecreate('created_at');
+            y.timeupdate('updated_at');
+            y.createTable(()=>{
+                console.log('load table')
+            });
         })
     }
 }
