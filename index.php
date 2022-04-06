@@ -975,7 +975,6 @@ function makeMenus(a = null){
         '': ['Dashboard', 'tachometer-alt'],
         page: ['Page', 'tag'],
         customer: ['Customer', 'tag'],
-        asisten: ['Asisten', 'tag'],
         theme: ['Tema', 'file'],
         catatan: ['Catatan', 'file']
     });
