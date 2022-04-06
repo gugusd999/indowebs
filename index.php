@@ -804,6 +804,7 @@ if(isset($_GET['key'])){
     <link rel="stylesheet" href="codemirror/addon/fold/foldgutter.css">
     <link rel="stylesheet" href="codemirror/addon/dialog/dialog.css">
     <link rel="stylesheet" href="codemirror/theme/monokai.css">
+    <link rel="stylesheet" href="plugin/c3.min.css?v=1">
     <script src="codemirror/lib/codemirror.js"></script>
     <script src="codemirror/addon/search/searchcursor.js"></script>
     <script src="codemirror/addon/search/search.js"></script>
@@ -822,6 +823,8 @@ if(isset($_GET['key'])){
     <script src="codemirror/keymap/sublime.js"></script>
     <script src="codemirror/php.js"></script>
     <script src="sb/vendor/jquery/jquery.min.js?v=1"></script>
+    <script src="plugin/d3.min.js?v=1"></script>
+    <script src="plugin/c3.min.js?v=1"></script>
   </head>
     <body id="page-top">
   	<script type="text/javascript">
@@ -1007,44 +1010,6 @@ function makeMenus(a = null){
     die();
 ?>
 <?php endif; ?>
-
-<?php if(isset($_GET['vd'])) : ?>
-<?php
-    Session::put('token', uniqid());
-?>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="robots" content="noindex">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>OnEdu</title>
-  </head>
-    <body id="page-top">
-  	<script type="text/javascript">
-  		    localStorage.setItem('loginCond', '<?= Session::get('token') ?>');
-        	globalThis.bashpath = "/";
-          globalThis.urlapp = "/";
-  		    globalThis.pathRoot = "/";
-          globalThis.getScript = 55;
-          globalThis.user = {
-            level: 'admin'
-          };
-  	</script>
-    <link rel="stylesheet" href="summernote.css">
-    <link rel="stylesheet" href="summernote-bs4.min.css">
-    <script src="sb/vendor/jquery/jquery.min.js?v=1"></script>
-    <script src="summernote.js"></script>
-    <script src="summernote-bs4"></script>
-    <script src="navbar.js?v=<?= date('ymdhis') ?>" ></script>
-    <script id="moduleapp" src="route.js?v=<?= date('ymdhis') ?>" type="module" ></script>
-  </body>
-</html>
-<?php
-    die();
-?>
-<?php endif; ?>
-
 
 <?php
 

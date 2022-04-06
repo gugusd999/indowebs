@@ -37,6 +37,7 @@ export const table = function(tableName){
             formId: 'form-get-app',
             objform: null,
             primarykey: null,
+            multiOrder: [],
             customeH: '',
             idUpdate: 0,
             key: "id",
@@ -654,6 +655,10 @@ export const table = function(tableName){
                     document.querySelector('.form-e').style.display = 'none';
 
                     db().table(loadForm.data.table).condition(gdhi).get(function(res){
+                    
+                        if(res.length > 0){
+                        globalThis.EditData = res[0];
+                    }
 
                     loadForm.data.loadDataEdit = getData;
                     loadForm.data.idUpdate = true;
@@ -2201,7 +2206,9 @@ export const table = function(tableName){
             if (disableNew == false) {
                 newCreateBtn = `
                 <div id='button-area'>
-                    <button class="btn btn-sm btn-primary mb-3" id="tambah-${t}">Tambah</button>${act.data.customeH}
+                    <button class="btn btn-sm btn-primary mb-3" id="tambah-${t}"> <i class="fas fa-circle-plus"></i> Tambah</button>
+                    <button onclick="globalThis.orderTmenus('${t}order')" class="btn btn-sm btn-primary mb-3"> <i class="fas fa-sort"></i> </button>
+                    ${act.data.customeH}
                 </div>
                 `;
                 if (act.data.search != undefined) {
@@ -2274,13 +2281,111 @@ export const table = function(tableName){
                         <br>
                         <div class="row" id="form-get-app${t}"></div>
                         <div id="btn-action-area" class="text-right" >
-                          <button id="close${t}" type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                          <button id="hapus${t}" type="button" class="btn btn-danger">Hapus</button>
-                          <button id="simpan${t}" type="button" class="btn btn-primary">Simpan</button>
+                          <button id="close${t}" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> <i class="fas fa-close"></i> Tutup</button>
+                          <button id="hapus${t}" type="button" class="btn btn-sm btn-danger"> <i class="fas fa-circle-minus"></i> Hapus</button>
+                          <button id="simpan${t}" type="button" class="btn btn-sm btn-primary"> <i class="fas fa-save"></i> Simpan</button>
                         </div>
                     </form>
+                </div>`;
+            
+
+            
+
+            var orderForm = Object.keys(act.data.row).map((er)=>{
+                
+                var opt = [
+                    {value: '', data: 'Pilih Order'}
+                    ,{value: 'ASC', data: 'ASC'}
+                    ,{value: 'DESC', data: 'DESC'}
+                ];
+
+                var setVal = '';
+
+                var cekDOrder = act.data.multiOrder.filter((e,o)=>{
+                    if(e.name == er){
+                        return e;
+                    }
+                })
+
+                if(cekDOrder.length > 0){
+                    setVal = cekDOrder[0].val;
+                }
+
+                var makeSelection = opt.map(function(cj,i){
+                    if(setVal == cj.value){
+                        return `
+                            <option selected value="${cj.value}">${cj.data}</option>
+                        `;
+                    }else{
+                        return `
+                            <option value="${cj.value}">${cj.data}</option>
+                        `;
+                    }
+                })
+
+                return `
+                    <div class="form-group row">
+                        <div class="col-6">
+                            ${act.data.row[er]}
+                        </div>
+                        <div class="col-6">
+                            <select class="form-control" data-order-f-${t}="${er}" id="order-${er}">
+                                ${makeSelection}
+                            </select>
+                        </div>
+                    </div>
+                `;
+            }).join(' ')
+            
+            loadTable += `
+                <div id="${t}order" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Order Table</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ${orderForm}
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="globalThis.loadFilterOrder('data-order-f-${t}', '${t}order')" type="button" class="btn btn-primary">Order</button>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             `;
+
+            globalThis.orderTmenus = function(id){
+                $('#'+id).modal('show');
+            }
+
+            globalThis.loadFilterOrder = function(s, id){
+                var getVal = Array.from(document.querySelectorAll('['+s+']')).map((m,n)=>{
+                    var name = m.getAttribute(s);
+                    var val = m.value;
+                    return {
+                        name: name,
+                        val: val
+                    }
+                })
+
+                getVal = getVal.filter((s)=>{
+                    if(s.val != ''){
+                        return s;
+                    }
+                })
+
+                $('#' + id).modal('toggle');
+
+                act.data.multiOrder = getVal;
+
+                act.load();
+
+            }
+
             if (dat.length == 0) {
                 loadTable += `
                     <div class="text-center pd-5 pt-3">
@@ -2436,9 +2541,23 @@ export const table = function(tableName){
             }
             lpsTable.limit(act.data.pagination[this.data.table], Math.floor(act.data.bataspagin))
 
-            if (act.data.order != undefined) {
-                lpsTable.order(act.data.order.start, act.data.order.end);
+            if (act.data.multiOrder.length == 0) {
+                if (act.data.order != undefined) {
+                    act.data.multiOrder.push({
+                        name: act.data.order.start,
+                        val: act.data.order.end
+                    })
+                }
             }
+
+            if (act.data.multiOrder.length > 0) {
+                
+                lpsTable.order(act.data.multiOrder.map(function(nj,i){
+                    return ` ${nj.name} ${nj.val} `;
+                }).join(','), '');
+            }
+
+
             lpsTable.get(function(dat, tot){
                 act.data.totData[tbl] = tot;
                 globalThis.dataLoadtable = dat;

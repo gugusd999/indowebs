@@ -527,8 +527,9 @@ loadSc([
             {kode: 'N'}
         ];
         globalThis.dataMaster['level'] = level;
-        Route.start();
-
+        $(document).ready(function(){
+            Route.start();
+        })
     })
 
 })
