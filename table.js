@@ -2014,8 +2014,6 @@ export const table = function(tableName){
                       }
                     }
 
-
-
                     .bottom-nav{
                       float: right;
                       margin-bottom: 5px;
@@ -2253,11 +2251,9 @@ export const table = function(tableName){
                 ${newCreateBtn}
                 <div style="clear:both;"></div>
             </div>
-            <div class='data-table'>
             <div id="${t}">
             ${setGridName}
             ${dataLoad}
-            </div>
             </div>
             ${back}
             <div class="float-right bottom-nav">
@@ -2275,20 +2271,18 @@ export const table = function(tableName){
             `;
             // make modal
             loadTable += `
-                <div class="form-d">
-                    <form autocomplete="off">
-                        <h5 class="modal-title" id="m${t}"></h5>
-                        <br>
-                        <div class="row" id="form-get-app${t}"></div>
-                        <div id="btn-action-area" class="text-right" >
-                          <button id="close${t}" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> <i class="fas fa-close"></i> Tutup</button>
-                          <button id="hapus${t}" type="button" class="btn btn-sm btn-danger"> <i class="fas fa-circle-minus"></i> Hapus</button>
-                          <button id="simpan${t}" type="button" class="btn btn-sm btn-primary"> <i class="fas fa-save"></i> Simpan</button>
-                        </div>
-                    </form>
-                </div>`;
-            
-
+            <div class="form-d">
+                <form autocomplete="off">
+                    <h5 class="modal-title" id="m${t}"></h5>
+                    <br>
+                    <div class="row" id="form-get-app${t}"></div>
+                    <div id="btn-action-area" class="text-right" >
+                        <button id="close${t}" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> <i class="fas fa-close"></i> Tutup</button>
+                        <button id="hapus${t}" type="button" class="btn btn-sm btn-danger"> <i class="fas fa-circle-minus"></i> Hapus</button>
+                        <button id="simpan${t}" type="button" class="btn btn-sm btn-primary"> <i class="fas fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>`;
             
 
             var orderForm = Object.keys(act.data.row).map((er)=>{
