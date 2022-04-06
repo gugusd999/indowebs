@@ -974,6 +974,7 @@ function makeMenus(a = null){
     var m = makeMenus({
         '': ['Dashboard', 'tachometer-alt'],
         page: ['Page', 'tag'],
+        customer: ['Customer', 'tag'],
         asisten: ['Asisten', 'tag'],
         theme: ['Tema', 'file'],
         catatan: ['Catatan', 'file']
@@ -984,7 +985,7 @@ function makeMenus(a = null){
     <?php
         
         $pathComponent = ['navbar2','xdb','db','file', 'table','plugin/controlDb', 'loadjs', 'route'];
-        $pathMenu = ['dashboard', 'page', 'asisten', 'theme', 'catatan'];
+        $pathMenu = ['dashboard', 'page','customer', 'asisten', 'theme', 'catatan'];
         
     ?>
 
