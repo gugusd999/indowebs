@@ -84,6 +84,10 @@ export const table = function(tableName){
                 .replace(/&quot;/g, '"')
                 .replace(/&#039;/g,"'");
         },
+        custView: function(){
+            this.data.customeView = true;
+            return this;  
+        },
         back: function(a){
             this.data.back = a;
             return this;
@@ -2130,8 +2134,6 @@ export const table = function(tableName){
                     }
 
                     #app-content{
-                      max-height: calc(100% - 80px) !important;
-                      min-height: calc(100% - 80px) !important;
                       overflow: auto;
                       overflow-x: hidden;
                     }
@@ -2231,6 +2233,23 @@ export const table = function(tableName){
             }
 
             act.data.tottb = Math.ceil(totData[act.data.table] / bataspagin);
+            
+            
+            var setContentData = `
+                <div id="${t}">
+                    ${setGridName}
+                    ${dataLoad}
+                </div>
+            `;
+            
+            if(act.data.customeView != undefined){
+                if(act.data.customeView == true){
+                    setContentData = `
+                        <div id="custome-${t}">
+                        </div>
+                    `;
+                }
+            }
 
             loadTable += `
             <div id='${t}-loader' style="display: none;">
@@ -2251,17 +2270,14 @@ export const table = function(tableName){
                 ${newCreateBtn}
                 <div style="clear:both;"></div>
             </div>
-            <div id="${t}">
-            ${setGridName}
-            ${dataLoad}
-            </div>
+            ${setContentData}
             ${back}
             <div class="float-right bottom-nav">
                  <span style="display: inline-block;padding: 8px 10px;"><span style="display: inline-block; padding-top-top: 12px;">halaman ${(Number(pagination[act.data.table]) + bataspagin) / bataspagin } dari ${Math.ceil(totData[act.data.table] / bataspagin)} </span> </span>
                  <span>
                      <ul class="pagination mt-3">
                       <li><input type="text" id="goval-${t}" class="form-control" style="width:80px; margin: 0 10px;" value="${(Number(pagination[act.data.table]) + bataspagin) / bataspagin }" /></li>
-                      <li><button class="btn btn-primary mr-2" id="go-${t}">GO</button></li>
+                      <li><button class="btn btn-primary mr-2" id="go-${t}"><i class="fas fa-play"></i></button></li>
                       <li class="page-item"><a id="prev-${t}" style="cursor: pointer;" class="page-link"><</a></li>
                       <li class="page-item"><a id="next-${t}" style="cursor: pointer;" class="page-link">></a></li>
                     </ul>
@@ -2394,17 +2410,20 @@ export const table = function(tableName){
                 if(act.data.addRow != undefined) {
                   setTimeout(function(){
                     actAddRow();
-                  },500)
+                  },1000)
                 }
               }
-              this.data.afterload(act, new db, loadSfIle);
+              function newAct(){
+                  act.newData();
+              }
+              this.data.afterload(act, new db, loadSfIle, newAct);
             }else{
               document.getElementById('load-'+tableName).innerHTML = loadTable;
               act.newData();
               if(act.data.addRow != undefined) {
                 setTimeout(function(){
                   actAddRow();
-                },500)
+                },1000)
               }
             }
         }
